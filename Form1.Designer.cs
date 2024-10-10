@@ -54,7 +54,7 @@
             this.btMostrarLibro.Name = "btMostrarLibro";
             this.btMostrarLibro.Size = new System.Drawing.Size(144, 63);
             this.btMostrarLibro.TabIndex = 1;
-            this.btMostrarLibro.Text = "Monstrar Libro";
+            this.btMostrarLibro.Text = "Mostrar Libros";
             this.btMostrarLibro.UseVisualStyleBackColor = true;
             this.btMostrarLibro.Click += new System.EventHandler(this.btMostrarLibro_Click);
             // 
@@ -74,7 +74,7 @@
             this.btActualizar.Name = "btActualizar";
             this.btActualizar.Size = new System.Drawing.Size(144, 63);
             this.btActualizar.TabIndex = 3;
-            this.btActualizar.Text = "Actualizar";
+            this.btActualizar.Text = "Actualizar Libro";
             this.btActualizar.UseVisualStyleBackColor = true;
             this.btActualizar.Click += new System.EventHandler(this.btActualizar_Click);
             // 
