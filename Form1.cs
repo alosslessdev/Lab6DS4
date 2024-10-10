@@ -10,11 +10,36 @@ using System.Windows.Forms;
 
 namespace Lab_6
 {
-    public partial class Form1 : Form
+    public partial class fBiblioteca : Form
     {
-        public Form1()
+        public fBiblioteca()
         {
             InitializeComponent();
+        }
+dfsd
+        private void btMostrarLibro_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btEliminarLibro_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btActualizar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btAgregarLibro_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvLibro_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
