@@ -16,7 +16,7 @@ namespace Lab_6
         {
             InitializeComponent();
         }
-dfsd
+
         private void btMostrarLibro_Click(object sender, EventArgs e)
         {
 
@@ -38,6 +38,11 @@ dfsd
         }
 
         private void dgvLibro_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void fBiblioteca_Load(object sender, EventArgs e)
         {
 
         }

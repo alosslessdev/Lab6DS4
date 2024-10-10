@@ -100,7 +100,6 @@
             this.Controls.Add(this.dgvLibro);
             this.Name = "fBiblioteca";
             this.Text = "Biblioteca";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvLibro)).EndInit();
             this.ResumeLayout(false);
 
