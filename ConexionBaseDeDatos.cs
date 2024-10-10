@@ -8,5 +8,8 @@ namespace Lab_6
 {
     internal class ConexionBaseDeDatos
     {
+
+        private string detallesConexion = "Data Source=localhost;Initial Catalog=Libreria;Integrated Security=True";
+
     }
 }
