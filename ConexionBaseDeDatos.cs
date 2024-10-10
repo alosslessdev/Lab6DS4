@@ -8,7 +8,5 @@ namespace Lab_6
 {
     internal class ConexionBaseDeDatos
     {
-
-
     }
 }
