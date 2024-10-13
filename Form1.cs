@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Lab_6
 {
     public partial class fBiblioteca : Form
@@ -43,6 +44,20 @@ namespace Lab_6
 
         private void btEliminarLibro_Click(object sender, EventArgs e)
         {
+            if (dgvLibro.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione los libros que desea eliminar.");
+                return;
+            }
+
+            DialogResult confirmResult = MessageBox.Show("¿Está seguro de que desea eliminar los libros seleccionados?",
+                                                        "Confirmar eliminación",
+                                                        MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.No)
+            {
+                return;
+            }
+
             string connectionString = "your_connection_string_here";
             List<int> idsEliminar = new List<int>();
 
@@ -52,14 +67,7 @@ namespace Lab_6
                 idsEliminar.Add(id);
             }
 
-            if (idsEliminar.Count == 0)
-            {
-                MessageBox.Show("Seleccione al menos un libro para eliminar.");
-                return;
-            }
-
             string ids = string.Join(",", idsEliminar);
-
             string query = $"DELETE FROM Libros WHERE id IN ({ids})";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -134,10 +142,27 @@ namespace Lab_6
 
         private void btAgregarLibro_Click(object sender, EventArgs e)
         {
-            // Datos del nuevo libro (pueden ser recogidos desde un formulario)
-            string titulo = txtTitulo.Text; // TextBox en tu formulario
-            string autor = txtAutor.Text;
-            int cantidadDisponible = Convert.ToInt32(txtCantidadDisponible.Text);
+            // Mensaje para solicitar datos del nuevo libro
+            string titulo = Microsoft.VisualBasic.Interaction.InputBox("Ingrese el título del libro:", "Agregar libro");
+            if (string.IsNullOrEmpty(titulo))
+            {
+                MessageBox.Show("Debe ingresar un título.");
+                return;
+            }
+
+            string autor = Microsoft.VisualBasic.Interaction.InputBox("Ingrese el autor del libro:", "Agregar libro");
+            if (string.IsNullOrEmpty(autor))
+            {
+                MessageBox.Show("Debe ingresar un autor.");
+                return;
+            }
+
+            string cantidadStr = Microsoft.VisualBasic.Interaction.InputBox("Ingrese la cantidad disponible:", "Agregar libro");
+            if (!int.TryParse(cantidadStr, out int cantidadDisponible))
+            {
+                MessageBox.Show("Debe ingresar una cantidad válida.");
+                return;
+            }
 
             string connectionString = "your_connection_string_here";
             string query = "INSERT INTO Libros (Titulo, Autor, CantidadDisponible) VALUES (@Titulo, @Autor, @Cantidad)";
@@ -165,14 +190,14 @@ namespace Lab_6
             }
         }
 
-        private void dgvLibro_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void fBiblioteca_Load(object sender, EventArgs e)
         {
+            // Aquí podrías cargar la lista de libros al iniciar la aplicación
+        }
 
+        private void dgvLibro_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Evento del DataGridView, si necesitas alguna funcionalidad aquí
         }
     }
 }
