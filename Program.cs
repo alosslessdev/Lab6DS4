@@ -16,7 +16,7 @@ namespace Lab_6
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new fBiblioteca());
+            Application.Run(new FBiblioteca());
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Lab_6
 {
-    partial class fBiblioteca
+    partial class FBiblioteca
     {
         /// <summary>
         /// Required designer variable.
@@ -88,7 +88,7 @@
             this.btAgregarLibro.UseVisualStyleBackColor = true;
             this.btAgregarLibro.Click += new System.EventHandler(this.btAgregarLibro_Click);
             // 
-            // fBiblioteca
+            // FBiblioteca
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -98,7 +98,7 @@
             this.Controls.Add(this.btEliminarLibro);
             this.Controls.Add(this.btMostrarLibro);
             this.Controls.Add(this.dgvLibro);
-            this.Name = "fBiblioteca";
+            this.Name = "FBiblioteca";
             this.Text = "Biblioteca";
             ((System.ComponentModel.ISupportInitialize)(this.dgvLibro)).EndInit();
             this.ResumeLayout(false);

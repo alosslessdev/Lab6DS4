@@ -11,12 +11,13 @@ using System.Windows.Forms;
 
 namespace Lab_6
 {
-    public partial class fBiblioteca : Form
+    public partial class FBiblioteca : Form
     {
-        public fBiblioteca()
+        public FBiblioteca()
         {
             InitializeComponent();
         }
+
 
         private void btMostrarLibro_Click(object sender, EventArgs e)
         {
@@ -134,45 +135,57 @@ namespace Lab_6
 
         private void btAgregarLibro_Click(object sender, EventArgs e)
         {
-            // Datos del nuevo libro (pueden ser recogidos desde un formulario)
-            string titulo = txtTitulo.Text; // TextBox en tu formulario
-            string autor = txtAutor.Text;
-            int cantidadDisponible = Convert.ToInt32(txtCantidadDisponible.Text);
+            /* // Datos del nuevo libro (pueden ser recogidos desde un formulario)
+             string titulo = txtTitulo.Text; // TextBox en tu formulario
+             string autor = txtAutor.Text;
+             int cantidadDisponible = Convert.ToInt32(txtCantidadDisponible.Text);
 
-            string connectionString = "your_connection_string_here";
-            string query = "INSERT INTO Libros (Titulo, Autor, CantidadDisponible) VALUES (@Titulo, @Autor, @Cantidad)";
+             string connectionString = "your_connection_string_here";
+             string query = "INSERT INTO Libros (Titulo, Autor, CantidadDisponible) VALUES (@Titulo, @Autor, @Cantidad)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Titulo", titulo);
-                command.Parameters.AddWithValue("@Autor", autor);
-                command.Parameters.AddWithValue("@Cantidad", cantidadDisponible);
+             using (SqlConnection connection = new SqlConnection(connectionString))
+             {
+                 SqlCommand command = new SqlCommand(query, connection);
+                 command.Parameters.AddWithValue("@Titulo", titulo);
+                 command.Parameters.AddWithValue("@Autor", autor);
+                 command.Parameters.AddWithValue("@Cantidad", cantidadDisponible);
 
-                try
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    MessageBox.Show("Libro agregado correctamente.");
+                 try
+                 {
+                     connection.Open();
+                     command.ExecuteNonQuery();
+                     MessageBox.Show("Libro agregado correctamente.");
 
-                    // Refrescar el DataGridView
-                    btMostrarLibro_Click(sender, e);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al agregar libro: " + ex.Message);
-                }
-            }
+                     // Refrescar el DataGridView
+                     btMostrarLibro_Click(sender, e);
+                 }
+                 catch (Exception ex)
+                 {
+                     MessageBox.Show("Error al agregar libro: " + ex.Message);
+                 }
+             }*/
+            
+
+            FormAniadirLibro formAniadirLibro = new FormAniadirLibro(this);
+            formAniadirLibro.Show();
+            dgvLibro.Rows.Clear();
+
+
         }
 
         private void dgvLibro_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        { 
+
+        }
+
+        private void FBiblioteca_Load(object sender, EventArgs e)
+        {
+
+        }
+        internal void sdf()
         {
 
         }
 
-        private void fBiblioteca_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
