@@ -13,7 +13,7 @@ namespace Lab_6
 
         private string detallesConexion = "Data Source=localhost;Initial Catalog=Libreria;Integrated Security=True";
 
-        public DataSet ObtenerDatos()
+        internal DataSet ObtenerDatos()
         {
             DataSet datos = new DataSet();
             try
@@ -32,7 +32,7 @@ namespace Lab_6
             return datos;
         }
 
-        public void InsertDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
+        internal void InsertDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Lab_6
 
         }
 
-        public void UpdateDatos(int cantidadDisponibleMetodo)
+        internal void UpdateDatos(int cantidadDisponibleMetodo)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Lab_6
 
         }
 
-        public void DeleteDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
+        internal void DeleteDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
         {
             try
             {

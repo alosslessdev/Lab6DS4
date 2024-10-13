@@ -26,8 +26,7 @@ namespace Lab_6
             ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
             conexionBaseDeDatos.InsertDatos(txtAutor.Text, txtTitulo.Text, Convert.ToInt16(txtCantidad.Text));
             FBiblioteca fBiblioteca = new FBiblioteca();
-            dgvExternoAqui.sdf();
-            dgvExternoAqui.RefreshGrid();
+            dgvExternoAqui.RefrescarDataGridView();
             this.Hide();
         }
     }

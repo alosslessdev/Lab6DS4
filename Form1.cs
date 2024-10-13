@@ -168,7 +168,6 @@ namespace Lab_6
 
             FormAniadirLibro formAniadirLibro = new FormAniadirLibro(this);
             formAniadirLibro.Show();
-            dgvLibro.Rows.Clear();
 
 
         }
@@ -182,8 +181,11 @@ namespace Lab_6
         {
 
         }
-        internal void sdf()
+        internal void RefrescarDataGridView()
         {
+            ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
+            DataSet datos = conexionBaseDeDatos.ObtenerDatos();
+            dgvLibro.DataSource = datos;
 
         }
 
