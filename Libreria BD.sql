@@ -7,10 +7,10 @@ create table Libros(
 id INT IDENTITY PRIMARY KEY,
 Titulo varchar(30) NOT NULL,
 Autor varchar (30) NOT NULL,
-Cantidad_Disponible INT NOT NULL,
+CantidadDisponible INT NOT NULL,
 );
-INSERT INTO Libros(Titulo, Autor, Cantidad_Disponible)
-Values ('Señor de los anillos', 'J.R.R Tolkien', 5), 
+INSERT INTO Libros(Titulo, Autor, CantidadDisponible)
+Values ('SeÃ±or de los anillos', 'J.R.R Tolkien', 5), 
 ('AOT', 'Hajime Isayama', 23),
 ('Dune', 'Frank Herbert', 42), 
 ('Metro 2033', 'Dmitri Glujovski', 33),
