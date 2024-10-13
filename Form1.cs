@@ -189,11 +189,11 @@ namespace Lab_6
 
             if (mostrarAlInicioMasNuevoInterno)
             {
-                DataSet datos = conexionBaseDeDatos.ObtenerDatosPrimeroReciente();
+                DataSet datos = conexionBaseDeDatos.ObtenerDatos(true);
                 dgvLibro.DataSource = datos;
             }
             else {
-                DataSet datos = conexionBaseDeDatos.ObtenerDatos();
+                DataSet datos = conexionBaseDeDatos.ObtenerDatos(false);
                 dgvLibro.DataSource = datos;
             }
 

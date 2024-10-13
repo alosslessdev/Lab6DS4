@@ -13,35 +13,25 @@ namespace Lab_6
 
         private string detallesConexion = "Data Source=localhost;Initial Catalog=Libreria;Integrated Security=True";
 
-        internal DataSet ObtenerDatos()
+        internal DataSet ObtenerDatos(bool entradaSiOrdenarPorNuevoPrimero)
         {
             DataSet datos = new DataSet();
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros";
-                    SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
-                    adaptador.Fill(datos, "Libros");
-                }
-            }
-            catch (SqlException ex)
-            {
-                throw new Exception("Error al obtener libros: " + ex.Message);
-            }
-            return datos;
-        }
+                    if (entradaSiOrdenarPorNuevoPrimero)
+                    {
+                        string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros ORDER BY ID Desc";
+                        SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
+                        adaptador.Fill(datos, "Libros");
+                    }
+                    else {
 
-        internal DataSet ObtenerDatosPrimeroReciente()
-        {
-            DataSet datos = new DataSet();
-            try
-            {
-                using (SqlConnection conexion = new SqlConnection(detallesConexion))
-                {
-                    string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros ORDER BY ID Desc";
-                    SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
-                    adaptador.Fill(datos, "Libros");
+                        string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros";
+                        SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
+                        adaptador.Fill(datos, "Libros");
+                    }
                 }
             }
             catch (SqlException ex)
