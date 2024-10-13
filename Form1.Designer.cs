@@ -38,6 +38,7 @@
             // 
             // dgvLibro
             // 
+            this.dgvLibro.AllowUserToOrderColumns = true;
             this.dgvLibro.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.dgvLibro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvLibro.Location = new System.Drawing.Point(1, 145);

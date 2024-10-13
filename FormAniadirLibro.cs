@@ -24,10 +24,16 @@ namespace Lab_6
         private void botonAceptar_Click(object sender, EventArgs e)
         {
             ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
-            conexionBaseDeDatos.InsertDatos(txtAutor.Text, txtTitulo.Text, Convert.ToInt16(txtCantidad.Text));
-            FBiblioteca fBiblioteca = new FBiblioteca();
-            dgvExternoAqui.RefrescarDataGridView(true);
-            this.Hide();
+            if (txtAutor.Text == "" || txtTitulo.Text == "" || txtCantidad.Text == "")
+            {
+                MessageBox.Show("Por favor rellene los campos");
+            }else {
+                conexionBaseDeDatos.InsertDatos(txtAutor.Text, txtTitulo.Text, Convert.ToInt16(txtCantidad.Text));
+                FBiblioteca fBiblioteca = new FBiblioteca();
+                dgvExternoAqui.RefrescarDataGridView(true);
+                this.Hide();
+            }
+            
         }
     }
 }
