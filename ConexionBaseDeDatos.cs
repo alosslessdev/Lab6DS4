@@ -20,7 +20,7 @@ namespace Lab_6
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "SELECT Nombre, Departamento, Salario FROM Empleados";
+                    string query = "SELECT Titulo, Autor, CantidadDisponible FROM Libros";
                     SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
                     adaptador.Fill(datos, "Libros");
                 }
@@ -29,71 +29,68 @@ namespace Lab_6
             {
                 throw new Exception("Error al obtener libros: " + ex.Message);
             }
-
             return datos;
-
         }
 
-        public DataSet InsertDatos()
+        public void InsertDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
         {
-            DataSet datos = new DataSet();
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "SELECT Nombre, Departamento, Salario FROM Empleados";
-                    SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
-                    adaptador.Fill(datos, "Libros");
+                    string query = "INSERT INTO Libros(Titulo, Autor, CantidadDisponible) VALUES (@Titulo, @Autor, @CantidadDisponible)";
+                    SqlCommand instruccion = new SqlCommand(query, conexion);
+                    instruccion.Parameters.AddWithValue("@Titulo", tituloMetodo);
+                    instruccion.Parameters.AddWithValue("@Autor", salario);
+                    instruccion.Parameters.AddWithValue("@CantidadDisponible", cantidadDisponibleMetodo);
+                    conexion.Open();
+                    instruccion.ExecuteNonQuery();
                 }
             }
             catch (SqlException ex)
             {
-                throw new Exception("Error al obtener libros: " + ex.Message);
+                throw new Exception("Error al insertar libros: " + ex.Message);
             }
-
-            return datos;
 
         }
 
-        public DataSet UpdateDatos()
+        public void UpdateDatos(int cantidadDisponibleMetodo)
         {
-            DataSet datos = new DataSet();
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "SELECT Nombre, Departamento, Salario FROM Empleados";
-                    SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
-                    adaptador.Fill(datos, "Libros");
+                    string query = "UPDATE Libros SET CantidadDisponible = @CantidadDisponible";
+                    SqlCommand instruccion = new SqlCommand(query, conexion);
+                    instruccion.Parameters.AddWithValue("@CantidadDisponible", cantidadDisponibleMetodo);
+                    conexion.Open();
+                    instruccion.ExecuteNonQuery();
                 }
             }
             catch (SqlException ex)
             {
-                throw new Exception("Error al obtener libros: " + ex.Message);
+                throw new Exception("Error al insertar libros: " + ex.Message);
             }
-
-            return datos;
 
         }
 
-        public DataSet DeleteDatos()
+        public void DeleteDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
         {
-            DataSet datos = new DataSet();
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "SELECT Nombre, Departamento, Salario FROM Empleados";
-                    SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
-                    adaptador.Fill(datos, "Libros");
+                    string query = "DELETE FROM Libros WHERE Titulo = @Titulo";
+                    SqlCommand instruccion = new SqlCommand(query, conexion);
+                    instruccion.Parameters.AddWithValue("@Titulo", tituloMetodo);
+                    conexion.Open();
+                    instruccion.ExecuteNonQuery();
                 }
             }
             catch (SqlException ex)
             {
-                throw new Exception("Error al obtener libros: " + ex.Message);
+                throw new Exception("Error al insertar libros: " + ex.Message);
             }
-
-            return datos;
 
         }
 
