@@ -7,7 +7,7 @@ create table Libros(
 id INT IDENTITY PRIMARY KEY,
 Titulo varchar(30) NOT NULL,
 Autor varchar (30) NOT NULL,
-Cantidad_Disponible INT NOT NULL,
+CantidadDisponible INT NOT NULL,
 );
 INSERT INTO Libros(Titulo, Autor, CantidadDisponible)
 Values ('Señor de los anillos', 'J.R.R Tolkien', 5), 
