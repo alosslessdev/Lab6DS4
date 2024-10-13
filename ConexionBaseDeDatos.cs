@@ -20,7 +20,26 @@ namespace Lab_6
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "SELECT Titulo, Autor, CantidadDisponible FROM Libros";
+                    string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros";
+                    SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
+                    adaptador.Fill(datos, "Libros");
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception("Error al obtener libros: " + ex.Message);
+            }
+            return datos;
+        }
+
+        internal DataSet ObtenerDatosPrimeroReciente()
+        {
+            DataSet datos = new DataSet();
+            try
+            {
+                using (SqlConnection conexion = new SqlConnection(detallesConexion))
+                {
+                    string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros ORDER BY ID Desc";
                     SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
                     adaptador.Fill(datos, "Libros");
                 }

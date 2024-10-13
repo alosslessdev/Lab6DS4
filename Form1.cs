@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -181,11 +182,20 @@ namespace Lab_6
         {
 
         }
-        internal void RefrescarDataGridView()
+        internal void RefrescarDataGridView(bool mostrarAlInicioMasNuevo)
         {
+            bool mostrarAlInicioMasNuevoInterno = mostrarAlInicioMasNuevo;
             ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
-            DataSet datos = conexionBaseDeDatos.ObtenerDatos();
-            dgvLibro.DataSource = datos;
+
+            if (mostrarAlInicioMasNuevoInterno)
+            {
+                DataSet datos = conexionBaseDeDatos.ObtenerDatosPrimeroReciente();
+                dgvLibro.DataSource = datos;
+            }
+            else {
+                DataSet datos = conexionBaseDeDatos.ObtenerDatos();
+                dgvLibro.DataSource = datos;
+            }
 
         }
 
