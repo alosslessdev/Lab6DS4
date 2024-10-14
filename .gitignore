@@ -1,4 +1,5 @@
 /.vs
 /obj/*
-.exe
-.pdb
+*.exe
+*.pdb
+*.zip
