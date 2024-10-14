@@ -25,19 +25,41 @@ namespace Lab_6
             InitializeComponent();
         }
 
-        private void btMostrarLibro_Click(object sender, EventArgs e)
+        private void RefrescarDataGridView()
         {
             ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
             DataSet datos = conexionBaseDeDatos.ObtenerDatos(false); // falso significa no muestres al elemento mas reciente de primero en el datagridview
             dgvLibro.DataSource = datos.Tables["Libros"]; //refresca el datagridview
+            conexionBaseDeDatos = null;
         }
 
-        private void btEliminarLibro_Click(object sender, EventArgs e)
+
+        private void btMostrarLibro_Click(object sender, EventArgs e)
         {
+            RefrescarDataGridView();
+           
+        }
+
+        private void btEliminarLibro_Click(object sender, EventArgs e) 
+        {
+
+            if (dgvLibro.DataSource == null)
+            {
+                RefrescarDataGridView();
+                MessageBox.Show("Seleccione los libros que desea eliminar." + Environment.NewLine +
+                              "Para seleccionar un libro, vaya a la fila que tiene el libro que quiera eliminar, " +
+                              "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia, lo que cambiara el color de la fila, " +
+                              "seleccionando el libro.");
+                return;
+            }
+
             if (dgvLibro.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione los libros que desea eliminar. Para seleccionar un libro, vaya a la fila que tiene el libro que quiera eliminar, " +
-                    "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia.");
+                MessageBox.Show("Seleccione los libros que desea eliminar." + Environment.NewLine + 
+                                "Para seleccionar un libro, vaya a la fila que tiene el libro que quiera eliminar, " +
+                                "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia, lo que cambiara el color de la fila, " +
+                                "seleccionando el libro.");
+
                 return;
             }
 
@@ -60,21 +82,31 @@ namespace Lab_6
             string ids = string.Join(",", idsEliminar);
             string query = $"DELETE FROM Libros WHERE id IN ({ids})";
 
-            ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
-            conexionBaseDeDatos.DeleteDatos(query);
+            ConexionBaseDeDatos conexionBaseDeDatosInterno = new ConexionBaseDeDatos();
+            conexionBaseDeDatosInterno.DeleteDatos(query);
 
-            DataSet datos = conexionBaseDeDatos.ObtenerDatos(false);
-            dgvLibro.DataSource = datos.Tables["Libros"]; //refresca el datagridview
-
+            RefrescarDataGridView();
 
         }
 
         private void btActualizar_Click(object sender, EventArgs e)
         {
+
+            if (dgvLibro.DataSource == null) {
+                RefrescarDataGridView();
+                MessageBox.Show("Seleccione un solo libro para actualizar. " + Environment.NewLine +
+                                "Para seleccionar un libro, vaya a la fila que tiene el libro que quiera actualizar, " +
+                                "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia, lo que cambiara el color de la fila, " +
+                                "seleccionando el libro.");
+                return;
+            }    
+
             if (dgvLibro.SelectedRows.Count != 1)
             {
-                MessageBox.Show("Seleccione un solo libro para actualizar. Para seleccionar un libro, vaya a la fila que tiene el libro que quiera actualizar, " +
-                                "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia.");
+                MessageBox.Show("Seleccione un solo libro para actualizar. " + Environment.NewLine +
+                                "Para seleccionar un libro, vaya a la fila que tiene el libro que quiera actualizar, " +
+                                "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia,  lo que cambiara el color de la fila, " +
+                                "seleccionando el libro.");
                 return;
             }
 
@@ -95,8 +127,7 @@ namespace Lab_6
                 ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
                 conexionBaseDeDatos.UpdateDatos(nuevaCantidad, id);
 
-                DataSet datos = conexionBaseDeDatos.ObtenerDatos(false);
-                dgvLibro.DataSource = datos.Tables["Libros"];//refresca el datagridview
+                RefrescarDataGridView();
 
             }
             else
@@ -125,7 +156,7 @@ namespace Lab_6
             string cantidadStr = Microsoft.VisualBasic.Interaction.InputBox("Ingrese la cantidad disponible:", "Agregar libro");
             if (!int.TryParse(cantidadStr, out int cantidadDisponible))
             {
-                MessageBox.Show("Debe ingresar una cantidad válida.");
+                MessageBox.Show("Debe ingresar una cantidad numerica como 5, 9, etc.");
                 return;
             }
 
@@ -138,14 +169,5 @@ namespace Lab_6
 
         }
 
-        private void FBiblioteca_Load(object sender, EventArgs e)
-        {
-            // Aquí podrías cargar la lista de libros al iniciar la aplicación
-        }
-
-        private void dgvLibro_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Evento del DataGridView, si necesitas alguna funcionalidad aquí
-        }
     }
 }

@@ -47,7 +47,6 @@
             this.dgvLibro.RowTemplate.Height = 24;
             this.dgvLibro.Size = new System.Drawing.Size(799, 304);
             this.dgvLibro.TabIndex = 0;
-            this.dgvLibro.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvLibro_CellContentClick);
             // 
             // btMostrarLibro
             // 
@@ -93,6 +92,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.btAgregarLibro);
             this.Controls.Add(this.btActualizar);
