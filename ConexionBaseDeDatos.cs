@@ -6,6 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+ * Carrasco, Nathan
+ * Herrera, Francisco
+ * Wu, Iván
+ */
+
 namespace Lab_6
 {
     internal class ConexionBaseDeDatos
@@ -13,16 +19,26 @@ namespace Lab_6
 
         private string detallesConexion = "Data Source=localhost;Initial Catalog=Libreria;Integrated Security=True";
 
-        public DataSet ObtenerDatos()
+        internal DataSet ObtenerDatos(bool entradaSiOrdenarPorNuevoPrimero)
         {
             DataSet datos = new DataSet();
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "SELECT Titulo, Autor, CantidadDisponible FROM Libros";
-                    SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
-                    adaptador.Fill(datos, "Libros");
+                    if (entradaSiOrdenarPorNuevoPrimero)
+                    {
+                        string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros ORDER BY ID Desc";
+                        SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
+                        adaptador.Fill(datos, "Libros");
+                    }
+                    else
+                    {
+
+                        string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros";
+                        SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
+                        adaptador.Fill(datos, "Libros");
+                    }
                 }
             }
             catch (SqlException ex)
@@ -32,7 +48,7 @@ namespace Lab_6
             return datos;
         }
 
-        public void InsertDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
+        internal void InsertDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
         {
             try
             {
@@ -54,15 +70,17 @@ namespace Lab_6
 
         }
 
-        public void UpdateDatos(int cantidadDisponibleMetodo)
+        internal void UpdateDatos(int cantidadDisponibleMetodo, int idEntrada)
         {
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "UPDATE Libros SET CantidadDisponible = @CantidadDisponible";
+                    string query = "UPDATE Libros SET CantidadDisponible = @CantidadDisponible WHERE id = @id";
                     SqlCommand instruccion = new SqlCommand(query, conexion);
                     instruccion.Parameters.AddWithValue("@CantidadDisponible", cantidadDisponibleMetodo);
+                    instruccion.Parameters.AddWithValue("@id", idEntrada);
+
                     conexion.Open();
                     instruccion.ExecuteNonQuery();
                 }
@@ -74,15 +92,14 @@ namespace Lab_6
 
         }
 
-        public void DeleteDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
+        internal void DeleteDatos(string queryEntrada)
         {
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "DELETE FROM Libros WHERE Titulo = @Titulo";
+                    string query = queryEntrada;
                     SqlCommand instruccion = new SqlCommand(query, conexion);
-                    instruccion.Parameters.AddWithValue("@Titulo", tituloMetodo);
                     conexion.Open();
                     instruccion.ExecuteNonQuery();
                 }

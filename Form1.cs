@@ -9,44 +9,57 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+/*
+ * Carrasco, Nathan
+ * Herrera, Francisco
+ * Wu, Iván
+ */
+
 
 namespace Lab_6
 {
-    public partial class fBiblioteca : Form
+    public partial class FBiblioteca : Form
     {
-        public fBiblioteca()
+        public FBiblioteca()
         {
             InitializeComponent();
         }
 
-        private void btMostrarLibro_Click(object sender, EventArgs e)
+        private void RefrescarDataGridView()
         {
-            string connectionString = "your_connection_string_here";  // Actualiza con tu cadena de conexión
-            string query = "SELECT * FROM Libros";  // Consulta para obtener todos los libros
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlDataAdapter dataAdapter = new SqlDataAdapter(query, connection);
-                DataSet dataSet = new DataSet();
-
-                try
-                {
-                    connection.Open();
-                    dataAdapter.Fill(dataSet, "Libros");
-                    dgvLibro.DataSource = dataSet.Tables["Libros"];
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al mostrar libros: " + ex.Message);
-                }
-            }
+            ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
+            DataSet datos = conexionBaseDeDatos.ObtenerDatos(false); // falso significa no muestres al elemento mas reciente de primero en el datagridview
+            dgvLibro.DataSource = datos.Tables["Libros"]; //refresca el datagridview
+            conexionBaseDeDatos = null;
         }
 
-        private void btEliminarLibro_Click(object sender, EventArgs e)
+
+        private void btMostrarLibro_Click(object sender, EventArgs e)
         {
+            RefrescarDataGridView();
+           
+        }
+
+        private void btEliminarLibro_Click(object sender, EventArgs e) 
+        {
+
+            if (dgvLibro.DataSource == null)
+            {
+                RefrescarDataGridView();
+                MessageBox.Show("Seleccione los libros que desea eliminar." + Environment.NewLine +
+                              "Para seleccionar un libro, vaya a la fila que tiene el libro que quiera eliminar, " +
+                              "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia, lo que cambiara el color de la fila, " +
+                              "seleccionando el libro.");
+                return;
+            }
+
             if (dgvLibro.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione los libros que desea eliminar.");
+                MessageBox.Show("Seleccione los libros que desea eliminar." + Environment.NewLine + 
+                                "Para seleccionar un libro, vaya a la fila que tiene el libro que quiera eliminar, " +
+                                "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia, lo que cambiara el color de la fila, " +
+                                "seleccionando el libro.");
+
                 return;
             }
 
@@ -58,7 +71,6 @@ namespace Lab_6
                 return;
             }
 
-            string connectionString = "your_connection_string_here";
             List<int> idsEliminar = new List<int>();
 
             foreach (DataGridViewRow row in dgvLibro.SelectedRows)
@@ -70,30 +82,31 @@ namespace Lab_6
             string ids = string.Join(",", idsEliminar);
             string query = $"DELETE FROM Libros WHERE id IN ({ids})";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                try
-                {
-                    connection.Open();
-                    int filasEliminadas = command.ExecuteNonQuery();
-                    MessageBox.Show($"{filasEliminadas} libros eliminados.");
+            ConexionBaseDeDatos conexionBaseDeDatosInterno = new ConexionBaseDeDatos();
+            conexionBaseDeDatosInterno.DeleteDatos(query);
 
-                    // Refrescar el DataGridView
-                    btMostrarLibro_Click(sender, e);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al eliminar libros: " + ex.Message);
-                }
-            }
+            RefrescarDataGridView();
+
         }
 
         private void btActualizar_Click(object sender, EventArgs e)
         {
+
+            if (dgvLibro.DataSource == null) {
+                RefrescarDataGridView();
+                MessageBox.Show("Seleccione un solo libro para actualizar. " + Environment.NewLine +
+                                "Para seleccionar un libro, vaya a la fila que tiene el libro que quiera actualizar, " +
+                                "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia, lo que cambiara el color de la fila, " +
+                                "seleccionando el libro.");
+                return;
+            }    
+
             if (dgvLibro.SelectedRows.Count != 1)
             {
-                MessageBox.Show("Seleccione un solo libro para actualizar.");
+                MessageBox.Show("Seleccione un solo libro para actualizar. " + Environment.NewLine +
+                                "Para seleccionar un libro, vaya a la fila que tiene el libro que quiera actualizar, " +
+                                "mire a la celda vacia a la izquierda de la fila, y haga click en esa celda vacia,  lo que cambiara el color de la fila, " +
+                                "seleccionando el libro.");
                 return;
             }
 
@@ -110,29 +123,12 @@ namespace Lab_6
 
             if (int.TryParse(input, out int nuevaCantidad))
             {
-                string connectionString = "your_connection_string_here";
-                string query = "UPDATE Libros SET CantidadDisponible = @Cantidad WHERE id = @id";
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@Cantidad", nuevaCantidad);
-                    command.Parameters.AddWithValue("@id", id);
+                ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
+                conexionBaseDeDatos.UpdateDatos(nuevaCantidad, id);
 
-                    try
-                    {
-                        connection.Open();
-                        command.ExecuteNonQuery();
-                        MessageBox.Show("Cantidad actualizada correctamente.");
+                RefrescarDataGridView();
 
-                        // Refrescar el DataGridView
-                        btMostrarLibro_Click(sender, e);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error al actualizar libro: " + ex.Message);
-                    }
-                }
             }
             else
             {
@@ -160,44 +156,18 @@ namespace Lab_6
             string cantidadStr = Microsoft.VisualBasic.Interaction.InputBox("Ingrese la cantidad disponible:", "Agregar libro");
             if (!int.TryParse(cantidadStr, out int cantidadDisponible))
             {
-                MessageBox.Show("Debe ingresar una cantidad válida.");
+                MessageBox.Show("Debe ingresar una cantidad numerica como 5, 9, etc.");
                 return;
             }
 
-            string connectionString = "your_connection_string_here";
-            string query = "INSERT INTO Libros (Titulo, Autor, CantidadDisponible) VALUES (@Titulo, @Autor, @Cantidad)";
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Titulo", titulo);
-                command.Parameters.AddWithValue("@Autor", autor);
-                command.Parameters.AddWithValue("@Cantidad", cantidadDisponible);
+            ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
+            conexionBaseDeDatos.InsertDatos(titulo, autor, cantidadDisponible);
 
-                try
-                {
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    MessageBox.Show("Libro agregado correctamente.");
+            DataSet datos = conexionBaseDeDatos.ObtenerDatos(true); // true significa muestra el elemento mas reciente de primero en el datagridview
+            dgvLibro.DataSource = datos.Tables["Libros"];//refresca el datagridview
 
-                    // Refrescar el DataGridView
-                    btMostrarLibro_Click(sender, e);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error al agregar libro: " + ex.Message);
-                }
-            }
         }
 
-        private void fBiblioteca_Load(object sender, EventArgs e)
-        {
-            // Aquí podrías cargar la lista de libros al iniciar la aplicación
-        }
-
-        private void dgvLibro_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Evento del DataGridView, si necesitas alguna funcionalidad aquí
-        }
     }
 }
