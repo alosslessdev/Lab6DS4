@@ -18,9 +18,9 @@ using System.Windows.Forms;
 
 namespace Lab_6
 {
-    public partial class fBiblioteca : Form
+    public partial class FBiblioteca : Form
     {
-        public fBiblioteca()
+        public FBiblioteca()
         {
             InitializeComponent();
         }
@@ -28,8 +28,8 @@ namespace Lab_6
         private void btMostrarLibro_Click(object sender, EventArgs e)
         {
             ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
-            DataSet datos = conexionBaseDeDatos.ObtenerDatos(false);
-            dgvLibro.DataSource = datos.Tables["Libros"];
+            DataSet datos = conexionBaseDeDatos.ObtenerDatos(false); // falso significa no muestres al elemento mas reciente de primero en el datagridview
+            dgvLibro.DataSource = datos.Tables["Libros"]; //refresca el datagridview
         }
 
         private void btEliminarLibro_Click(object sender, EventArgs e)
@@ -64,7 +64,7 @@ namespace Lab_6
             conexionBaseDeDatos.DeleteDatos(query);
 
             DataSet datos = conexionBaseDeDatos.ObtenerDatos(false);
-            dgvLibro.DataSource = datos.Tables["Libros"];
+            dgvLibro.DataSource = datos.Tables["Libros"]; //refresca el datagridview
 
 
         }
@@ -96,7 +96,7 @@ namespace Lab_6
                 conexionBaseDeDatos.UpdateDatos(nuevaCantidad, id);
 
                 DataSet datos = conexionBaseDeDatos.ObtenerDatos(false);
-                dgvLibro.DataSource = datos.Tables["Libros"];
+                dgvLibro.DataSource = datos.Tables["Libros"];//refresca el datagridview
 
             }
             else
@@ -133,12 +133,12 @@ namespace Lab_6
             ConexionBaseDeDatos conexionBaseDeDatos = new ConexionBaseDeDatos();
             conexionBaseDeDatos.InsertDatos(titulo, autor, cantidadDisponible);
 
-            DataSet datos = conexionBaseDeDatos.ObtenerDatos(false);
-            dgvLibro.DataSource = datos.Tables["Libros"];
+            DataSet datos = conexionBaseDeDatos.ObtenerDatos(true); // true significa muestra el elemento mas reciente de primero en el datagridview
+            dgvLibro.DataSource = datos.Tables["Libros"];//refresca el datagridview
 
         }
 
-        private void fBiblioteca_Load(object sender, EventArgs e)
+        private void FBiblioteca_Load(object sender, EventArgs e)
         {
             // Aquí podrías cargar la lista de libros al iniciar la aplicación
         }
