@@ -26,7 +26,8 @@ namespace Lab_6
                         SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
                         adaptador.Fill(datos, "Libros");
                     }
-                    else {
+                    else
+                    {
 
                         string query = "SELECT ID, Titulo, Autor, CantidadDisponible FROM Libros";
                         SqlDataAdapter adaptador = new SqlDataAdapter(query, conexion);
@@ -63,15 +64,17 @@ namespace Lab_6
 
         }
 
-        internal void UpdateDatos(int cantidadDisponibleMetodo)
+        internal void UpdateDatos(int cantidadDisponibleMetodo, int idEntrada)
         {
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "UPDATE Libros SET CantidadDisponible = @CantidadDisponible";
+                    string query = "UPDATE Libros SET CantidadDisponible = @CantidadDisponible WHERE id = @id";
                     SqlCommand instruccion = new SqlCommand(query, conexion);
                     instruccion.Parameters.AddWithValue("@CantidadDisponible", cantidadDisponibleMetodo);
+                    instruccion.Parameters.AddWithValue("@id", idEntrada);
+
                     conexion.Open();
                     instruccion.ExecuteNonQuery();
                 }
@@ -83,15 +86,14 @@ namespace Lab_6
 
         }
 
-        internal void DeleteDatos(string tituloMetodo, string salario, int cantidadDisponibleMetodo)
+        internal void DeleteDatos(string queryEntrada)
         {
             try
             {
                 using (SqlConnection conexion = new SqlConnection(detallesConexion))
                 {
-                    string query = "DELETE FROM Libros WHERE Titulo = @Titulo";
+                    string query = queryEntrada;
                     SqlCommand instruccion = new SqlCommand(query, conexion);
-                    instruccion.Parameters.AddWithValue("@Titulo", tituloMetodo);
                     conexion.Open();
                     instruccion.ExecuteNonQuery();
                 }

@@ -1,6 +1,6 @@
 ﻿namespace Lab_6
 {
-    partial class FBiblioteca
+    partial class fBiblioteca
     {
         /// <summary>
         /// Required designer variable.
